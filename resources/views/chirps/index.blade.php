@@ -22,7 +22,7 @@
                             <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
                             @endunless
                         </div>
-                        @if($chirp->user->is(auth()->user()))
+                        @if ($chirp->user->is(auth()->user()))
                         <x-dropdown>
                             <x-slot name="trigger">
                                 <button>
@@ -32,9 +32,14 @@
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <x-dropdown-link :herf="route('chirps.edit', $chirp)">
+                                <x-dropdown-link :href="route('chirps.edit', $chirp)">
                                     {{ __('Edit') }}
                                 </x-dropdown-link>
+                                <form method="POST" action="{{ route('chirps.destroy', $chirp)}}">
+                                    @csrf
+                                    @method('delete')
+                                    <x-dropdown-link :href="route('chirps.destroy', $chirp)" onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Delete') }}</x-dropdown-link>
+                                </form>
                             </x-slot>
                         </x-dropdown>
                         @endif
